@@ -1,30 +1,31 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Navbar, Nav } from "react-bootstrap"
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false)
+  // const [scrolled, setScrolled] = useState(false)
 
-  const handleScroll = () => {
-    const offset = window.scrollY
-    if (offset > 90) {
-      setScrolled(true)
-    } else {
-      setScrolled(false)
-    }
-  }
+  // const handleScroll = () => {
+  //   const offset = window.scrollY
+  //   if (offset > 90) {
+  //     setScrolled(true)
+  //   } else {
+  //     setScrolled(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-  })
-  let navbarClasses = [""]
-  if (scrolled) {
-    navbarClasses.push("scrolled")
-  }
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll)
+  // })
+  // let navbarClasses = [""]
+  // if (scrolled) {
+  //   navbarClasses.push("scrolled")
+  // }
 
   return (
-    <Navbar collapseOnSelect expand='lg' id={navbarClasses.join("")}>
+   <header className="header">
+     <Navbar collapseOnSelect expand='lg' sticky="top" id='nav'>
       <Navbar.Brand href='#home'>
-       <h1>Sid</h1>
+       Land Registry
       </Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav'>
@@ -36,6 +37,7 @@ const Header = () => {
         </Nav>      
       </Navbar.Collapse>
     </Navbar>
+   </header>
   )
 }
 
