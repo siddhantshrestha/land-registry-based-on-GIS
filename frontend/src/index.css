@@ -1,4 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Open+Sans:wght@300&family=Playfair+Display:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *,
 *::before,
 *::after {
@@ -24,32 +29,49 @@ video {
 
 body {
   font-family: "Merriweather", serif, "Open Sans", sans-serif,
-    "Playfair Display", serif ;
+    "Playfair Display", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
-.header {
-  display: flex;
-  justify-content: center;
-  background: #f9f9f9;
+
+.hamburger {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transition: all 0.25s;
+  position: relative;
 }
 
-.navbar {
-  padding: 10px 15px;
-  max-width: 1140px;
-  width: 100%;
-  font-family: "Playfair Display";
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: white;
+  transform: rotate(0);
+  transition: all 0.5s;
 }
-#nav {
-  padding: 10px 18px;
+.hamburger-middle {
+  transform: translateY(7px);
 }
-#nav__item {
-  width: 100%;
-  justify-content: end;
+.hamburger-bottom {
+  transform: translateY(14px);
 }
-.nav-link {
-  padding: 10px 25px !important;
-  display: flex !important;
-  justify-content: center;
+
+#menu-btn {
+  transform: rotate(90deg);
+  transform: translateY(0px);
+}
+
+#menu-btn .hamburger-top {
+  transform: rotate(45deg) translateY(6px) translate(6px);
+}
+#menu-btn .hamburger-middle {
+display: none}
+#menu-btn .hamburger-bottom {
+  transform: rotate(-45deg) translateY(6px) translate(-6px);
 }
