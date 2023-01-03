@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState} from "react"
+import { Link } from "react-router-dom"
 
 
 const Header = () => {
-const [toggle,setToggle] = useState(true);
+const [toggle,setToggle] = useState(false);
 
   
 
@@ -15,19 +16,22 @@ const [toggle,setToggle] = useState(true);
 
 
   return (
-    <header className='bg-black'>
-      <nav className='relative container mx-auto p-6'>
-        {/* flex conatiner */}
+    <header className='bg-black sticky top-0'>
+      <nav className='relative container  top-0 mx-auto px-6 py-3'>
+        {/* flex container */}
         <div className='flex item-center justify-between'>
-          <div className='pt-2'>
-            <div className='text-3xl text-white'>Land</div>
+          <div className='py-2'>
+            <div className='text-2xl text-white'>
+            <Link to='/' className="text-decoration-none text-white text-2xl pt-2 ">Land Registry</Link>
+
+            </div>
           </div>
 
-          <div className='hidden  space-x-6 md:flex'>
-            <a href='#' className="text-decoration-none text-white text-2xl pt-2 ">Home</a>
-            <a href='#' className="text-decoration-none text-white text-2xl pt-2 ">About</a>
-            <a href='#' className="text-decoration-none text-white text-2xl pt-2 ">Log In</a>
-            <a href='#' className="text-decoration-none text-white text-2xl pt-2 ">Sign Up</a>
+          <div className='hidden space-x-6 md:flex'>
+            <Link to='/' className="text-decoration-none text-white text-lg pt-2 ">Home</Link>
+            <Link to='/about' className="text-decoration-none text-white text-lg pt-2 ">About</Link>
+            <Link to='/login' className="text-decoration-none text-white text-lg pt-2 ">Log In</Link>
+            <Link to='/signup' className="text-decoration-none text-white text-lg pt-2 ">Sign Up</Link>
           </div>
 
           <button onClick={handleClick}
@@ -43,27 +47,23 @@ const [toggle,setToggle] = useState(true);
        {toggle ?  <div className='md:hidden'>
           <div
             id='menu'
-            className='absolute flex flex-col items-center self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-3 right-3 drop-shadow-md'>
-            <a
-              href='#'
+            className='absolute flex flex-col items-center self-end py-8 mt-4 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-3 right-3 drop-shadow-md'>
+            <Link to='/'
               className='text-decoration-none text-black text-2xl font-normal '>
               Home
-            </a>
-            <a
-              href='#'
+            </Link>
+            <Link to='/about'
               className='text-decoration-none text-black text-2xl font-normal'>
               About
-            </a>
-            <a
-              href='#'
+            </Link>
+            <Link to='/login'
               className='text-decoration-none text-black text-2xl font-normal'>
               Log In
-            </a>
-            <a
-              href='#'
+            </Link>
+            <Link to='/signup'
               className='text-decoration-none text-black text-2xl font-normal'>
               Sign Up
-            </a>
+            </Link>
           </div>
         </div>: <></>}
       </nav>

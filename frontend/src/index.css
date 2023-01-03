@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Open+Sans:wght@300&family=Playfair+Display:wght@400;500&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Open+Sans:wght@300&family=Playfair+Display:wght@400;500&display=swap");
 
 *,
 *::before,
@@ -13,7 +13,6 @@
 * {
   margin: 0;
   padding: 0;
-  font: inherit;
 }
 
 html {
@@ -71,7 +70,51 @@ body {
   transform: rotate(45deg) translateY(6px) translate(6px);
 }
 #menu-btn .hamburger-middle {
-display: none}
+  display: none;
+}
 #menu-btn .hamburger-bottom {
   transform: rotate(-45deg) translateY(6px) translate(-6px);
 }
+
+/* Login  */
+
+.login-form-box {
+  margin-top: 2.8rem;
+  padding: 10px 20px;
+}
+#login-img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#login-img {
+  max-width: 100%;
+  width: 500px;
+  height: auto;
+}
+.login-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #202020;
+  height: inherit;
+  border-top-right-radius:12px  ;
+  border-bottom-right-radius:12px;
+}
+.input-box{
+display: flex;
+flex-direction: column;
+max-width: 300px;
+width: 100%;
+}
+#login-btn{
+  padding: 8px 25px;
+  width: 120px;
+}
+#login-checkbox{
+  color:white
+}
+
+/* register  */
