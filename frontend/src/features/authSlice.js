@@ -12,7 +12,7 @@ const initialState = {
 }
 
 //Register user
-export const register = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   "auth/register",
   async (user, thunkAPI) => {
     try {
@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
         (error.res && error.res.data && error.res.data.message) ||
         error.message ||
         error.toString()
-        return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message)
     }
   }
 )
@@ -37,23 +37,25 @@ export const authSlice = createSlice({
       state.isSuccess = false
       state.message = ""
     },
-    extraReducers: (builder) => {
-        builder
-        .addCase(register.pending,(state)=>{
-            state.isLoading = true
-        })
-        .addCase(register.fulfilled,(state,action)=>{
-            state.isLoading = false
-            state.isError = false
-            state.isSuccess = true
-            state.user = action.payload
-        })
-        .addCase(register.rejected,(state,action)=>{
-            state.isError = true
-            state.isLoading = true 
-            state.message = action.payload
-        })
-        },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(registerUser.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = true
+        state.user = action.payload.message
+        state.message = action.payload.message
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isError = true
+        state.isLoading = true
+        state.message = action.payload
+      })
   },
 })
 

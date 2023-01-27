@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useState, useEffect } from "react"
 import {
   Box,
@@ -11,7 +12,7 @@ import { useForm } from "react-hook-form"
 import AlertMessage from "../component/AlertMessage"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { reset, register } from "../features/authSlice"
+import {  registerUser } from "../features/authSlice"
 import Spinner from "../component/Spinner"
 
 const Signup = () => {
@@ -21,16 +22,15 @@ const Signup = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     state => state.auth
   )
+  console.log(user?.message);
+
 
   useEffect(() => {
     if (isError) {
       setMsg(message)
     }
-
-    if (isSuccess || user) {
-      navigate("/")
-    }
-    dispatch(reset())
+   
+    // dispatch(reset())
   }, [user, isLoading, isError, isSuccess, message, navigate, dispatch])
 
   const [msg, setMsg] = useState("")
@@ -42,21 +42,21 @@ const Signup = () => {
     handleSubmit,
   } = useForm()
   const onSubmit = data => {
-    const { fname, lname, phonenum, address, email, password } = data
+    const { firstName, lastName, phoneNumber, address, email, password } = data
 
     if (data.password !== data.confirmPassword) {
       setMsg(`Password and Confirm Password does not match`)
     } else {
       const userData = {
-        fname,
-        lname,
-        phonenum,
+        firstName,
+        lastName,
+        phoneNumber,
         address,
         email,
         password,
       }
-      dispatch(register(userData))
-      // dispatch(register(userData))
+
+      dispatch(registerUser(userData))
       setMsg(null)
     }
   }
@@ -72,6 +72,7 @@ const Signup = () => {
   return (
     <Box>
       <Container sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
+      {message && <AlertMessage severity='success' message={message}/>}
         <form
           onSubmit={handleSubmit(onSubmit)}
           autoComplete='off'
@@ -97,23 +98,23 @@ const Signup = () => {
               }}>
               <TextField
                 className='register-input'
-                name='firstname'
+                name='firstName'
                 label='First Name'
                 fullWidth
                 variant='outlined'
-                {...register("fname", {
-                  required: "firstname is required",
+                {...register("firstName", {
+                  required: "First Name is required",
                   pattern: /[a-zA-Z]/i,
                 })}
-                aria-invalid={errors.fname ? "true" : "false"}
-                error={Boolean(errors.fname)}
+                aria-invalid={errors.firstName ? "true" : "false"}
+                error={Boolean(errors.firstName)}
               />
-              {errors.fname && (
+              {errors.firstName && (
                 <Typography sx={{ color: "red" }} role='alert'>
-                  {errors.fname?.message}
+                  {errors.firstName?.message}
                 </Typography>
               )}
-              {errors?.fname?.type === "pattern" && (
+              {errors?.firstName?.type === "pattern" && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   first name shouldn't contain special character
                 </Typography>
@@ -131,25 +132,25 @@ const Signup = () => {
               }}>
               <TextField
                 className='register-input'
-                name='lastname'
+                name='lastName'
                 label='Last Name'
                 variant='outlined'
                 fullWidth
-                {...register("lname", {
-                  required: "lastname is required",
+                {...register("lastName", {
+                  required: "Last Name is required",
                   pattern: /[a-zA-Z]/i,
                 })}
-                aria-invalid={errors.lname ? "true" : "false"}
-                error={Boolean(errors.lname)}
+                aria-invalid={errors.lastName ? "true" : "false"}
+                error={Boolean(errors.lastName)}
               />
-              {errors?.lname?.type === "pattern" && (
+              {errors?.lastName?.type === "pattern" && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   last name shouldn't contain special character
                 </Typography>
               )}
-              {errors.lname && (
+              {errors.lastName && (
                 <Typography sx={{ color: "red" }} role='alert'>
-                  {errors.lname?.message}
+                  {errors.lastName?.message}
                 </Typography>
               )}
             </Grid>
@@ -199,25 +200,25 @@ const Signup = () => {
               <TextField
                 fullWidth
                 className='register-input'
-                name='phonenum'
+                name='phoneNumber'
                 type='number'
                 label='Phone Number'
                 variant='outlined'
-                {...register("phonenum", {
-                  required: "phonenum is required",
+                {...register("phoneNumber", {
+                  required: "Phone Number is required",
                   pattern: /^[9][7-8]\d{8}$/i,
                 })}
-                aria-invalid={errors.phonenum ? "true" : "false"}
-                error={Boolean(errors.phonenum)}
+                aria-invalid={errors.phoneNumber ? "true" : "false"}
+                error={Boolean(errors.phoneNumber)}
               />
-              {errors?.phonenum?.type === "pattern" && (
+              {errors?.phoneNumber?.type === "pattern" && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   number not validate
                 </Typography>
               )}
-              {errors?.phonenum?.type === "required" && (
+              {errors?.phoneNumber?.type === "required" && (
                 <Typography sx={{ color: "red" }} role='alert'>
-                  {errors.phonenum?.message}
+                  {errors.phoneNumber?.message}
                 </Typography>
               )}
             </Grid>
