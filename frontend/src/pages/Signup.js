@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import {
   Box,
   Button,
@@ -11,7 +11,8 @@ import { useForm } from "react-hook-form"
 import AlertMessage from "../component/AlertMessage"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { reset,register } from "../features/authSlice"
+import { reset, register } from "../features/authSlice"
+import Spinner from "../component/Spinner"
 
 const Signup = () => {
   const dispatch = useDispatch()
@@ -21,20 +22,16 @@ const Signup = () => {
     state => state.auth
   )
 
-
-  useEffect(()=>{
-
-    if(isError){
+  useEffect(() => {
+    if (isError) {
       setMsg(message)
-      }
+    }
 
-    if(isSuccess || user){
-      navigate('/')
-
+    if (isSuccess || user) {
+      navigate("/")
     }
     dispatch(reset())
-
-  },[user, isLoading, isError, isSuccess, message,navigate,dispatch])
+  }, [user, isLoading, isError, isSuccess, message, navigate, dispatch])
 
   const [msg, setMsg] = useState("")
   // const [checked, setChecked] = useState(false)
@@ -59,16 +56,18 @@ const Signup = () => {
         password,
       }
       dispatch(register(userData))
+      // dispatch(register(userData))
       setMsg(null)
     }
-
-    console.log(data)
   }
 
   // const handleCheck = e => {
   //   setChecked(!checked)
   // }
 
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <Box>
