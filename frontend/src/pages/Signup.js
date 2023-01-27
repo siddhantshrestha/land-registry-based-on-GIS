@@ -1,133 +1,338 @@
-import { Box,Button,Checkbox,Container, FormControlLabel, FormGroup, InputLabel, TextField, Typography } from '@mui/material'
+import React, { useState, useEffect} from "react"
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material"
 import { useForm } from "react-hook-form"
-
-import React,{useState} from 'react'
+import AlertMessage from "../component/AlertMessage"
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { reset,register } from "../features/authSlice"
 
 const Signup = () => {
-    const [checked, setChecked] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-    const {
-      register,
-      formState: { errors },
-      handleSubmit,
-    } = useForm()
-    const onSubmit = data => console.log(data)
-  
-    const handleCheck = e => {
-      setChecked(!checked)
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    state => state.auth
+  )
+
+
+  useEffect(()=>{
+
+    if(isError){
+      setMsg(message)
+      }
+
+    if(isSuccess || user){
+      navigate('/')
+
     }
-  
+    dispatch(reset())
+
+  },[user, isLoading, isError, isSuccess, message,navigate,dispatch])
+
+  const [msg, setMsg] = useState("")
+  // const [checked, setChecked] = useState(false)
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm()
+  const onSubmit = data => {
+    const { fname, lname, phonenum, address, email, password } = data
+
+    if (data.password !== data.confirmPassword) {
+      setMsg(`Password and Confirm Password does not match`)
+    } else {
+      const userData = {
+        fname,
+        lname,
+        phonenum,
+        address,
+        email,
+        password,
+      }
+      dispatch(register(userData))
+      setMsg(null)
+    }
+
+    console.log(data)
+  }
+
+  // const handleCheck = e => {
+  //   setChecked(!checked)
+  // }
+
 
   return (
-    <Box >
-    <Container>
-    <form
-                onSubmit={handleSubmit(onSubmit)}
-                autoComplete='off'
-                className='login-form'>
-                <Typography
-                  variant='h4'
-                  sx={{ color: "white", fontFamily: "Playfair Display" }}
-                  gutterBottom>
-                  Sign Up
+    <Box>
+      <Container sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          autoComplete='off'
+          className='register-form'>
+          <Typography
+            variant='h4'
+            sx={{ fontFamily: "Playfair Display", textAlign: "center" }}
+            gutterBottom>
+            Sign Up
+          </Typography>
+
+          <Grid container column={12}>
+            <Grid
+              id='input-box'
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "20px",
+              }}>
+              <TextField
+                className='register-input'
+                name='firstname'
+                label='First Name'
+                fullWidth
+                variant='outlined'
+                {...register("fname", {
+                  required: "firstname is required",
+                  pattern: /[a-zA-Z]/i,
+                })}
+                aria-invalid={errors.fname ? "true" : "false"}
+                error={Boolean(errors.fname)}
+              />
+              {errors.fname && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.fname?.message}
                 </Typography>
-                <Box className='input-box'>
-                  <InputLabel sx={{ color: "white", margin: "7px 0" }}>
-                    Username
-                  </InputLabel>
+              )}
+              {errors?.fname?.type === "pattern" && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  first name shouldn't contain special character
+                </Typography>
+              )}
+            </Grid>
+            <Grid
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "20px",
+              }}>
+              <TextField
+                className='register-input'
+                name='lastname'
+                label='Last Name'
+                variant='outlined'
+                fullWidth
+                {...register("lname", {
+                  required: "lastname is required",
+                  pattern: /[a-zA-Z]/i,
+                })}
+                aria-invalid={errors.lname ? "true" : "false"}
+                error={Boolean(errors.lname)}
+              />
+              {errors?.lname?.type === "pattern" && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  last name shouldn't contain special character
+                </Typography>
+              )}
+              {errors.lname && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.lname?.message}
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+          <Grid container column={12}>
+            <Grid
+              id='input-box'
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "25px",
+                marginTop: "5px",
+              }}>
+              <TextField
+                className='register-input'
+                fullWidth
+                name='address'
+                label='Address'
+                variant='outlined'
+                {...register("address", {
+                  required: "address is required",
+                })}
+                aria-invalid={errors.address ? "true" : "false"}
+                error={Boolean(errors.address)}
+              />
+              {errors.address && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.address?.message}
+                </Typography>
+              )}
+            </Grid>
+            <Grid
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "25px",
+                marginTop: "5px",
+              }}>
+              <TextField
+                fullWidth
+                className='register-input'
+                name='phonenum'
+                type='number'
+                label='Phone Number'
+                variant='outlined'
+                {...register("phonenum", {
+                  required: "phonenum is required",
+                  pattern: /^[9][7-8]\d{8}$/i,
+                })}
+                aria-invalid={errors.phonenum ? "true" : "false"}
+                error={Boolean(errors.phonenum)}
+              />
+              {errors?.phonenum?.type === "pattern" && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  number not validate
+                </Typography>
+              )}
+              {errors?.phonenum?.type === "required" && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.phonenum?.message}
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            xs={12}
+            md={12}
+            sx={{
+              padding: "0 10px",
+              fontSize: "14px",
+              marginBottom: "25px",
+              marginTop: "5px",
+            }}>
+            <TextField
+              className='register-input'
+              fullWidth
+              name='email'
+              label='Email Address'
+              variant='outlined'
+              {...register("email", {
+                required: "email is required",
+                pattern:
+                  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i,
+              })}
+              aria-invalid={errors.email ? "true" : "false"}
+              error={Boolean(errors.email)}
+            />
+            {errors.email && (
+              <Typography sx={{ color: "red" }} role='alert'>
+                {errors.email?.message}
+              </Typography>
+            )}
+            {errors?.email?.type === "pattern" && (
+              <Typography sx={{ color: "red" }} role='alert'>
+                Invalid email address
+              </Typography>
+            )}
+          </Grid>
+          <Grid container column={12}>
+            <Grid
+              id='input-box'
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "25px",
+                marginTop: "5px",
+              }}>
+              <TextField
+                className='register-input'
+                fullWidth
+                name='password'
+                label='Password'
+                variant='outlined'
+                {...register("password", {
+                  required: "password is required",
+                })}
+                aria-invalid={errors.password ? "true" : "false"}
+                error={Boolean(errors.password)}
+              />
+              {errors.password && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.password?.message}
+                </Typography>
+              )}
+            </Grid>
+            <Grid
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              sx={{
+                padding: "0 10px",
+                fontSize: "14px",
+                marginBottom: "25px",
+                marginTop: "5px",
+              }}>
+              <TextField
+                className='register-input'
+                fullWidth
+                name='confirmPassword'
+                label='Confirm Password'
+                variant='outlined'
+                {...register("confirmPassword", {
+                  required: "confirmPassword is required",
+                })}
+                aria-invalid={errors.confirmPassword ? "true" : "false"}
+                error={Boolean(errors.confirmPassword)}
+              />
+              {errors.confirmPassword && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  {errors.confirmPassword?.message}
+                </Typography>
+              )}
+              {/* {errors.password !== errors.confirmPassword && (
+                <Typography sx={{ color: "red" }} role='alert'>
+                  Confirm password not matched
+                </Typography>
+              )} */}
+            </Grid>
+          </Grid>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {msg && <AlertMessage severity='error' message={msg} />}
+          </Box>
 
-                  <TextField
-                    sx={{
-                      background: "white",
-                      color: "black",
-                      borderRadius: "6px",
-                      outline: "none",
-                      maxWidth: "300px",
-                      width: "100%",
-                    }}
-                    name='username'
-                    // label='Username'
-                    variant='outlined'
-                    {...register("username", {
-                      required: "username is required",
-                    })}
-                    aria-invalid={errors.username ? "true" : "false"}
-                    error={Boolean(errors.username)}
-                  />
-                  {errors.username && (
-                    <Typography sx={{ color: "red" }} role='alert'>
-                      {errors.username?.message}
-                    </Typography>
-                  )}
-                </Box>
-                <Box className='input-box'>
-                  <InputLabel sx={{ color: "white", margin: "7px 0" }}>
-                    Password
-                  </InputLabel>
-
-                  <TextField
-                    sx={{
-                      color: "black",
-                      borderRadius: "6px",
-                      background: "white",
-                    }}
-                    name='password'
-                    // label='password'
-                    variant='outlined'
-                    type={checked ? "text" : "password"}
-                    {...register("password", {
-                      required: "Password is required",
-
-                      minLength: {
-                        value: 8,
-                      text: "Password must be atleast 8 in character",
-
-                      },
-                    })}
-                    aria-invalid={errors.password ? "true" : "false"}
-                    error={Boolean(errors.password)}
-                    // helperText=
-                  />
-                  {errors.password && (
-                    <Typography sx={{ color: "red" }} role='alert'>
-                      {errors.password?.message}
-                    </Typography>
-                  )}
-                  {errors.password?.type === "minLength" && (
-                    <Typography sx={{ color: "red" }} role='alert'>
-                      Password must be atleast 8 
-                    </Typography>
-                  )}
-                </Box>
-
-                <Box className='input-box'>
-                  <FormGroup sx={{ color: "white" }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{
-                            color: "white",
-                            "&.Mui-checked": {
-                              color: "primary",
-                            },
-                          }}
-                          checked={checked}
-                          onClick={handleCheck}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label='show password'
-                    />
-                  </FormGroup>
-                </Box>
-
-                {/* <input type='checkbox' ref={checkRef} onClick={handleCheck}/> */}
-                <Button id='login-btn' type='submit' variant='contained'>
-                  Login
-                </Button>
-              </form>
-
-    </Container>
+          <Button id='msg-btn' variant='outlined' type='submit'>
+            Send Message
+          </Button>
+        </form>
+      </Container>
     </Box>
   )
 }

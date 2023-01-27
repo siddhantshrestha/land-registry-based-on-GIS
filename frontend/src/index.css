@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "https://js.arcgis.com/4.25/@arcgis/core/assets/esri/themes/light/main.css";
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Open+Sans:wght@300&family=Playfair+Display:wght@400;500&display=swap");
 
 *,
@@ -13,6 +14,12 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 html {
@@ -33,7 +40,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
-
+.navbar-fixed-top {
+  position: initial;
+  z-index: 1030;
+}
 .hamburger {
   cursor: pointer;
   width: 24px;
@@ -100,21 +110,46 @@ body {
   align-items: center;
   background: #202020;
   height: inherit;
-  border-top-right-radius:12px  ;
-  border-bottom-right-radius:12px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
-.input-box{
-display: flex;
-flex-direction: column;
-max-width: 300px;
-width: 100%;
+.input-box {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  width: 100%;
 }
-#login-btn{
+#login-btn {
   padding: 8px 25px;
   width: 120px;
 }
-#login-checkbox{
-  color:white
+#login-checkbox {
+  color: white;
+}
+#input-box {
+  display: flex;
+  flex-direction: column;
 }
 
 /* register  */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #202020;
+border-radius: 8px;
+  padding: 40px 25px;
+  width: 500px;
+}
+.register-box {
+  display: flex;
+  flex-direction: column;
+}
+/* .register-input */
+/* sx={{
+  background: "white",
+  color: "black",
+  borderRadius: "6px",
+  outline: "none",
+  maxWidth: "300px",
+  width: "100%",
+}} */

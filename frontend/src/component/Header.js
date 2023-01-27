@@ -16,7 +16,7 @@ const [toggle,setToggle] = useState(false);
 
 
   return (
-    <header className='bg-black sticky top-0'>
+    <header className='bg-black sticky top-0 navbar-fixed-top'>
       <nav className='relative container  top-0 mx-auto px-6 py-3'>
         {/* flex container */}
         <div className='flex item-center justify-between'>
