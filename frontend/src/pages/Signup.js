@@ -12,8 +12,8 @@ import { useForm } from "react-hook-form"
 import AlertMessage from "../component/AlertMessage"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import {  registerUser } from "../features/authSlice"
-import Spinner from "../component/Spinner"
+import { registerUser } from "../features/authSlice"
+// import Spinner from "../component/Spinner"
 
 const Signup = () => {
   const dispatch = useDispatch()
@@ -22,14 +22,12 @@ const Signup = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     state => state.auth
   )
-  console.log(user?.message);
-
 
   useEffect(() => {
     if (isError) {
       setMsg(message)
     }
-   
+
     // dispatch(reset())
   }, [user, isLoading, isError, isSuccess, message, navigate, dispatch])
 
@@ -61,21 +59,15 @@ const Signup = () => {
     }
   }
 
-  // const handleCheck = e => {
-  //   setChecked(!checked)
-  // }
-
-  if (isLoading) {
-    return <Spinner />
-  }
+  
 
   return (
     <Box>
       <Container sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
-      {message && <AlertMessage severity='success' message={message}/>}
+        {message && <AlertMessage severity='success' message={message} />}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          autoComplete='off'
+          autoComplete='on'
           className='register-form'>
           <Typography
             variant='h4'
@@ -109,7 +101,7 @@ const Signup = () => {
                 aria-invalid={errors.firstName ? "true" : "false"}
                 error={Boolean(errors.firstName)}
               />
-              {errors.firstName && (
+              {/* {errors.firstName && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.firstName?.message}
                 </Typography>
@@ -118,7 +110,7 @@ const Signup = () => {
                 <Typography sx={{ color: "red" }} role='alert'>
                   first name shouldn't contain special character
                 </Typography>
-              )}
+              )} */}
             </Grid>
             <Grid
               container
@@ -143,7 +135,7 @@ const Signup = () => {
                 aria-invalid={errors.lastName ? "true" : "false"}
                 error={Boolean(errors.lastName)}
               />
-              {errors?.lastName?.type === "pattern" && (
+              {/* {errors?.lastName?.type === "pattern" && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   last name shouldn't contain special character
                 </Typography>
@@ -152,7 +144,7 @@ const Signup = () => {
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.lastName?.message}
                 </Typography>
-              )}
+              )} */}
             </Grid>
           </Grid>
           <Grid container column={12}>
@@ -180,11 +172,11 @@ const Signup = () => {
                 aria-invalid={errors.address ? "true" : "false"}
                 error={Boolean(errors.address)}
               />
-              {errors.address && (
+              {/* {errors.address && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.address?.message}
                 </Typography>
-              )}
+              )} */}
             </Grid>
             <Grid
               container
@@ -206,12 +198,12 @@ const Signup = () => {
                 variant='outlined'
                 {...register("phoneNumber", {
                   required: "Phone Number is required",
-                  pattern: /^[9][7-8]\d{8}$/i,
+                  // pattern: /^[9][7-8]\d{8}$/i,
                 })}
                 aria-invalid={errors.phoneNumber ? "true" : "false"}
                 error={Boolean(errors.phoneNumber)}
               />
-              {errors?.phoneNumber?.type === "pattern" && (
+              {/* {errors?.phoneNumber?.type === "pattern" && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   number not validate
                 </Typography>
@@ -220,7 +212,7 @@ const Signup = () => {
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.phoneNumber?.message}
                 </Typography>
-              )}
+              )} */}
             </Grid>
           </Grid>
           <Grid
@@ -247,7 +239,7 @@ const Signup = () => {
               aria-invalid={errors.email ? "true" : "false"}
               error={Boolean(errors.email)}
             />
-            {errors.email && (
+            {/* {errors.email && (
               <Typography sx={{ color: "red" }} role='alert'>
                 {errors.email?.message}
               </Typography>
@@ -256,7 +248,7 @@ const Signup = () => {
               <Typography sx={{ color: "red" }} role='alert'>
                 Invalid email address
               </Typography>
-            )}
+            )} */}
           </Grid>
           <Grid container column={12}>
             <Grid
@@ -283,11 +275,11 @@ const Signup = () => {
                 aria-invalid={errors.password ? "true" : "false"}
                 error={Boolean(errors.password)}
               />
-              {errors.password && (
+              {/* {errors.password && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.password?.message}
                 </Typography>
-              )}
+              )} */}
             </Grid>
             <Grid
               container
@@ -312,11 +304,11 @@ const Signup = () => {
                 aria-invalid={errors.confirmPassword ? "true" : "false"}
                 error={Boolean(errors.confirmPassword)}
               />
-              {errors.confirmPassword && (
+              {/* {errors.confirmPassword && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   {errors.confirmPassword?.message}
                 </Typography>
-              )}
+              )} */}
               {/* {errors.password !== errors.confirmPassword && (
                 <Typography sx={{ color: "red" }} role='alert'>
                   Confirm password not matched
@@ -329,7 +321,7 @@ const Signup = () => {
           </Box>
 
           <Button id='msg-btn' variant='outlined' type='submit'>
-            Send Message
+            Register
           </Button>
         </form>
       </Container>

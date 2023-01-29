@@ -1,9 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState} from "react"
-import { Link } from "react-router-dom"
+import { Link,  } from "react-router-dom"
+// import {reset , logout } from '../features/authSlice'
+// import {useSelector, } from 'react-redux'
 
 
 const Header = () => {
+
+// const navigate = useNavigate()
+// const dispatch= useDispatch()
+
+// const {user} = useSelector(state=>state.auth)
+
+// console.log(user);
+
 const [toggle,setToggle] = useState(false);
 
   
@@ -45,6 +55,7 @@ const [toggle,setToggle] = useState(false);
 
         {/* Mobile Menu */}
        {toggle ?  <div className='md:hidden'>
+       
           <div
             id='menu'
             className='absolute flex flex-col items-center self-end py-8 mt-4 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-3 right-3 drop-shadow-md'>
