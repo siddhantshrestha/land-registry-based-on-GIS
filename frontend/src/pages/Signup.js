@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
 import React, { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 import {
   Box,
   Button,
@@ -9,41 +10,46 @@ import {
   Typography,
 } from "@mui/material"
 import { useForm } from "react-hook-form"
-import AlertMessage from "../component/AlertMessage"
 import { useSelector, useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
 import { registerUser } from "../features/authSlice"
+import { useNavigate,useLocation } from "react-router-dom"
 // import Spinner from "../component/Spinner"
 
 const Signup = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+  console.log(location);
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    state => state.auth
-  )
+  // const {user} = useSelector(state=>state.auth)
+ 
 
-  useEffect(() => {
-    if (isError) {
-      setMsg(message)
-    }
-
-    // dispatch(reset())
-  }, [user, isLoading, isError, isSuccess, message, navigate, dispatch])
-
-  const [msg, setMsg] = useState("")
-  // const [checked, setChecked] = useState(false)
+  // useEffect(() => {
+  //   if (location.state) {
+  //     setValue(location.state.user)
+  //   }
+  // }, [location, setValue])
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  })
   const onSubmit = data => {
     const { firstName, lastName, phoneNumber, address, email, password } = data
 
     if (data.password !== data.confirmPassword) {
-      setMsg(`Password and Confirm Password does not match`)
+      toast.error(`Password and Confirm Password does not match`)
     } else {
       const userData = {
         firstName,
@@ -54,17 +60,13 @@ const Signup = () => {
         password,
       }
 
-      dispatch(registerUser(userData))
-      setMsg(null)
+      dispatch(registerUser({ user: userData, navigate }))
     }
   }
-
-  
 
   return (
     <Box>
       <Container sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
-        {message && <AlertMessage severity='success' message={message} />}
         <form
           onSubmit={handleSubmit(onSubmit)}
           autoComplete='on'
@@ -316,9 +318,9 @@ const Signup = () => {
               )} */}
             </Grid>
           </Grid>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            {msg && <AlertMessage severity='error' message={msg} />}
-          </Box>
+          {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {message && toast.error(message)}
+          </Box> */}
 
           <Button id='msg-btn' variant='outlined' type='submit'>
             Register

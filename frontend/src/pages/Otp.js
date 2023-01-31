@@ -1,31 +1,36 @@
 import React, { useState } from "react"
 import OtpInput from "react-otp-input"
 import axios from "axios"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { Container } from "@mui/system"
+import { useLocation } from "react-router-dom"
 
 const Otp = () => {
-  const { user } = useSelector(state => state.auth)
+  const location = useLocation()
+  // const { user } = useSelector(state => state.auth)
+  // console.log(location.state)
 
   const url =
     "https://gis-land-registration-system.vercel.app/api/user/register/otp/verify"
 
   const [otp, setOtp] = useState("")
+
   const info = {
-    email: user.data?.email,
+    email: location.state.data.email,
     OTP: otp,
   }
 
   const handleChange = otp => {
-    console.log(otp)
+    // console.log(otp)
     setOtp(otp)
   }
   const handleSubmit = async e => {
     e.preventDefault()
     try {
       const res = await axios.post(url, info)
+      console.log(res.data)
       if (res.data) {
         console.log(res.data)
         localStorage.setItem("userId", JSON.stringify(res.data?.userData?._id))

@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { toast } from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
+
 import authServices from "./authService"
 
-const user = JSON.parse(localStorage.getItem("user"))
+const userLocalData = JSON.parse(localStorage.getItem("user"))
 
 const initialState = {
-  user: user ? user : null,
+  user: userLocalData ? userLocalData : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -14,18 +17,20 @@ const initialState = {
 //Register user
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (user, thunkAPI) => {
+  async ({ user, navigate }, thunkAPI) => {
     try {
-      return authServices.register(user)
+      let res = await authServices.register(user)
+      // console.log(user);
+      navigate("/otpverify", { state: { data: res?.data, user:user} })
+
+      return res
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.error)
+
       const message =
-        (error.res && error.res.data && error.res.data.message) ||
-        error.message ||
-        error.toString()
-        console.log(message);
+        error.response.data.error || error.message || error.toString()
+      toast.error(message)
       return thunkAPI.rejectWithValue(message)
-      
     }
   }
 )
@@ -60,8 +65,8 @@ export const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isError = true
-        state.isLoading = true
         state.message = action.payload
+        state.user = null
       })
       .addCase(logout.fulfilled, state => {
         state.user = null
