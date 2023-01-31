@@ -31,11 +31,7 @@ const Otp = () => {
     try {
       const res = await axios.post(url, info)
       if (res.data) {
-        localStorage.setItem(
-          "userId",
-          JSON.stringify(res.data.data?.userData?._id)
-        )
-        localStorage.setItem("token", JSON.stringify(res.data.data?.token))
+       
         toast.error("Successfully created")
         navigate("/login")
       }
