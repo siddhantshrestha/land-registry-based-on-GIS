@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import React, { useState, useEffect } from "react"
+import React, {  useEffect } from "react"
 import toast from "react-hot-toast"
 import {
   Box,
@@ -10,41 +10,24 @@ import {
   Typography,
 } from "@mui/material"
 import { useForm } from "react-hook-form"
-import { useSelector, useDispatch } from "react-redux"
-import { registerUser } from "../features/authSlice"
-import { useNavigate,useLocation } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { registerUser, reset } from "../features/authSlice"
+import { useNavigate } from "react-router-dom"
 // import Spinner from "../component/Spinner"
 
 const Signup = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
-  console.log(location);
 
-  // const {user} = useSelector(state=>state.auth)
- 
-
-  // useEffect(() => {
-  //   if (location.state) {
-  //     setValue(location.state.user)
-  //   }
-  // }, [location, setValue])
+  useEffect(() => {
+    dispatch(reset())
+  }, [dispatch])
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      address: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  })
+  } = useForm()
   const onSubmit = data => {
     const { firstName, lastName, phoneNumber, address, email, password } = data
 

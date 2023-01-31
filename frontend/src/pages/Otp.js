@@ -5,13 +5,13 @@ import axios from "axios"
 
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { Container } from "@mui/system"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+import { toast } from "react-hot-toast"
 
 const Otp = () => {
   const location = useLocation()
-  // const { user } = useSelector(state => state.auth)
-  // console.log(location.state)
-
+  const navigate = useNavigate()
+  // console.log(location);
   const url =
     "https://gis-land-registration-system.vercel.app/api/user/register/otp/verify"
 
@@ -30,13 +30,17 @@ const Otp = () => {
     e.preventDefault()
     try {
       const res = await axios.post(url, info)
-      console.log(res.data)
       if (res.data) {
-        console.log(res.data)
-        localStorage.setItem("userId", JSON.stringify(res.data?.userData?._id))
-        localStorage.setItem("token", JSON.stringify(res.data?.token))
+        localStorage.setItem(
+          "userId",
+          JSON.stringify(res.data.data?.userData?._id)
+        )
+        localStorage.setItem("token", JSON.stringify(res.data.data?.token))
+        toast.error("Successfully created")
+        navigate("/login")
       }
     } catch (error) {
+      toast.error(error.response.data?.error)
       console.log(error)
     }
   }

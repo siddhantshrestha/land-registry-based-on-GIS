@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Box,
   Button,
@@ -13,8 +13,24 @@ import {
 import { useForm } from "react-hook-form"
 import loginImg from "../images/log.png"
 import Checkbox from "@mui/material/Checkbox"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "react-hot-toast"
+import { login, reset } from "../features/authSlice"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { isError, isSuccess, message } = useSelector(state => state.auth)
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Login Successful")
+    }
+    dispatch(reset())
+  }, [isError, isSuccess, message, dispatch,])
+
   const [checked, setChecked] = useState(false)
 
   const {
@@ -22,7 +38,16 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm()
-  const onSubmit = data => console.log(data)
+  const onSubmit = data => {
+    const { email, password } = data
+
+    const userData = {
+      email,
+      password,
+    }
+
+    dispatch(login({ user: userData,navigate} ))
+  }
 
   const handleCheck = e => {
     setChecked(!checked)
@@ -62,7 +87,7 @@ const Login = () => {
                 </Typography>
                 <Box className='input-box'>
                   <InputLabel sx={{ color: "white", margin: "7px 0" }}>
-                    Username
+                    Email
                   </InputLabel>
 
                   <TextField
@@ -74,18 +99,18 @@ const Login = () => {
                       maxWidth: "300px",
                       width: "100%",
                     }}
-                    name='username'
-                    // label='Username'
+                    name='email'
+                    // label='email'
                     variant='outlined'
-                    {...register("username", {
-                      required: "username is required",
+                    {...register("email", {
+                      required: "email is required",
                     })}
-                    aria-invalid={errors.username ? "true" : "false"}
-                    error={Boolean(errors.username)}
+                    aria-invalid={errors.email ? "true" : "false"}
+                    error={Boolean(errors.email)}
                   />
-                  {errors.username && (
+                  {errors.email && (
                     <Typography sx={{ color: "red" }} role='alert'>
-                      {errors.username?.message}
+                      {errors.email?.message}
                     </Typography>
                   )}
                 </Box>
@@ -109,8 +134,7 @@ const Login = () => {
 
                       minLength: {
                         value: 8,
-                      text: "Password must be atleast 8 in character",
-
+                        text: "Password must be atleast 8 in character",
                       },
                     })}
                     aria-invalid={errors.password ? "true" : "false"}
@@ -124,7 +148,7 @@ const Login = () => {
                   )}
                   {errors.password?.type === "minLength" && (
                     <Typography sx={{ color: "red" }} role='alert'>
-                      Password must be atleast 8 
+                      Password must be atleast 8
                     </Typography>
                   )}
                 </Box>
